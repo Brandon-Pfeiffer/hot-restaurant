@@ -31,6 +31,12 @@ app.get("/tables", function(req, res) {
 	res.sendFile(path.join(__dirname, "tables.html"));
 });
 
+
+app.get('/api/all', function(req, res) {
+    return res.json(customers)
+});
+
+
 app.get('/api/tables', function(req, res) {
     return res.json(customers.slice(0, 4))
 });
