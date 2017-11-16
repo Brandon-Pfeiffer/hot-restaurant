@@ -10,6 +10,9 @@
 </head>
 <body>
   <div class="container">
+    <div class="modal" id="my-modal">
+      <h1 class="modal-content">Your reservation has been added!<span class='close'>x</span></h1>
+    </div>
     <div class="jumbotron">
       <h1>Chilly Restaurant</h1>
       <h3>Make Your Reservation</h3>
@@ -21,34 +24,102 @@
             <div class="panel-title"><strong>
             Table Reservation</strong>
             </div>
-          </div>
-          <div class="panel-body">
-            <form role="form">
-              <div class="form-group">
-                <label for>Name</label>
-                <input type="text" class="form-control" id="reserve_name"></input>
-              </div>
-              <div class="form-group">
-                <label for>Phone Number</label>
-                <input type="text" class="form-control" id="reserve_phone"></input>
-              </div>
-              <div class="form-group">
-                <label for>Email</label>
-                <input type="text" class="form-control" id="reserve_email"></input>
-              </div>
-              <div class="form-group">
-                <label for>Unique ID</label>
-                <input type="text" class="form-control" id="reserve_uniqueID"></input>
-              </div>
-              <button type="submit" class="btn btn-primary submit">
-                Submit
-              </button>
-            </form>
+            <div class="panel-body">
+              <form role="form">
+                <div class="form-group">
+                  <label for>Name</label>
+                  <input type="text" class="form-control" id="reserve_name"></input>
+                </div>
+                <div class="form-group">
+                  <label for>Phone Number</label>
+                  <input type="text" class="form-control" id="reserve_phone"></input>
+                </div>
+                <div class="form-group">
+                  <label for>Email</label>
+                  <input type="text" class="form-control" id="reserve_email"></input>
+                </div>
+                <div class="form-group">
+                  <label for>Unique ID</label>
+                  <input type="text" class="form-control" id="reserve_uniqueID"></input>
+                </div>
+                <button id="new-reservation" type="submit" class="btn btn-primary submit">
+                  Submit
+                </button>
+              </form>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
   </div>
+  <style type="text/CSS">
+    .modal#my-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(245, 126, 107, 0.8);
+    }
+
+    h1.modal-content {
+      margin: 15% auto;
+      padding: 64px;
+      width: 80%;
+      color: black;
+      font-size: 33px;
+      background-color: rgba(245, 126, 107, 0.8);;
+    }
+
+    span.close {
+      color: black;
+      float: right;
+      font-size: 80px;
+      top: 0;
+      right: 0;
+      padding: 30px;
+    }
+
+    .close:hover, .close:focus {
+      font-size: 100px;
+      transition: all 0.5s;
+    }
+  </style>
+
+  <script type="text/javascript">
+    $("#new-reservation").on("click", function(event) {
+      event.preventDefault();
+
+      $("#my-modal").css("display", "block");
+      $(".close").on("click", closeModal)
+      $("#my-modal").on("click", closeModal);
+
+      var newReservation = {
+        name: $("#reserve_name").val().trim(),
+        phone: $("#reserve_phone").val().trim(),
+        email: $("#reserve_email").val().trim(),
+        id: $("reserve_uniqueID").val().trim()
+      };
+
+      $.post("/api/new", newReservation)
+      .done(function(data) {
+        console.log(data);
+        // alert("Your reservation has been added!");
+      });
+    });
+
+    function closeModal() {
+      $("#my-modal").css("display", "none");
+    }
+
+    $(".modal").on("click", function() {
+      $("#my-modal").css("display", "none");
+    })
+  </script>
+</body>
 </div>
 </body>
 </html>
