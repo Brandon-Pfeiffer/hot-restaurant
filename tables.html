@@ -52,10 +52,10 @@
   function runTableQuery() {
     var currentURL = window.location.origin;
 
-    $.ajax({url: currentURL + "/api/tables", method: "GET"})
+    $.ajax({url: currentURL + "/api/all", method: "GET"})
       .done(function(customers) {
 
-          for (i = 0; i < customers.length; i++) {
+          for (i = 0; i < 5; i++) {
             var reservations = $("<div class='well'>");
             reservations.attr('id', 'tableWell-' + i+1);
             $("#res").append(reservations);
